@@ -18,7 +18,7 @@ Markdown is a lightweight markup language based on the formatting conventions th
 
 ####Contact Information
 > Currently looking for opportunities in the field of Data Science/Analytics or Business Intelligence.
-> Please reach out to me at rjacob@scu.edu*
+> Please reach out to me at rjacob@scu.edu
 
 ##### Last Update
 June 19, 2016
