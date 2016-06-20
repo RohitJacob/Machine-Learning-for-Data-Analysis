@@ -2,7 +2,7 @@
 
 This repository is for all the Machine Learning techniques that I've learnt on my own through various sources online.
 
-###Techniques covered:
+##Techniques covered:
 
   - Decision Trees
   - Random Forests
@@ -16,10 +16,10 @@ You can also:
 
 Markdown is a lightweight markup language based on the formatting conventions that people naturally use in email.  As [John Gruber] writes on the [Markdown site][df1]
 
-##Contact Information
+####Contact Information
 > Currently looking for opportunities in the field of Data Science/Analytics or Business Intelligence.
 > Please reach out to me at rjacob@scu.edu*
 
-### Last Update
+##### Last Update
 June 19, 2016
 
