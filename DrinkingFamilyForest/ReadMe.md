@@ -1,5 +1,14 @@
 ##Random Forest Generation
 
+######Summary:
+
+Using the NESARC data set, we picked drinking as a problem. So using the variable where it checks if the induvidual has ever drank alcohol even once, we assign that as our target, and The parameters include, number of relatives, father or mother's presence in the house, other relatives, non-relatives living in-house and also we've included the sex of the induvidual to see if it plays a part.
+Later while taking the importance of each of these features, we notice that the sex plays an important part in whether the induvidual drinks or not, and also, finds that number of people living in the same household, especially non-relatives directly impact whether the induvidual drinks. 
+While running our tests one variable at a time added to the test, the accuracy barely changes from 80.5% to 80.55% and thus shows its enough for one variable to determine the outcome of the result.
+
+![png](output_16_1.png)
+
+
 > Start the program by importing the required packages that include
 > a bunch of sklearn packages for our analysis.
 
