@@ -489,7 +489,5 @@ plt.plot(trees, accuracy)
 ![png](output_16_1.png)
 
 
-
-```python
-
-```
+> From the graph above, it is clear that the first test wouldn't have been enough given that the accuracy of the test
+> at first is ~80.5% and the addition of the remaining variables only increase it to around ~80.55% which isn't a huge difference.
