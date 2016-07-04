@@ -4,17 +4,11 @@ This repository is for all the Machine Learning techniques that I've learnt on m
 
 ##Techniques covered:
 
-  - Decision Trees
-  - Random Forests
-  - Lasso Regressions
+  - [Decision Trees](https://github.com/RohitJacob/Machine-Learning-for-Data-Analysis/SomkersAnalysisTree)
+  - [Random Forests](https://github.com/RohitJacob/Machine-Learning-for-Data-Analysis/DrinkingFamilyForest)
+  - [Lasso Regressions](https://github.com/RohitJacob/Machine-Learning-for-Data-Analysis/DepressionAnalysis)
   - K-means Cluster Analysis
 
-You can also:
-  - Import and save files from GitHub, Dropbox, Google Drive and One Drive
-  - Drag and drop files into Dillinger
-  - Export documents as Markdown, HTML and PDF
-
-Markdown is a lightweight markup language based on the formatting conventions that people naturally use in email.  As [John Gruber] writes on the [Markdown site][df1]
 
 ####Contact Information
 > Currently looking for opportunities in the field of Data Science/Analytics or Business Intelligence.
