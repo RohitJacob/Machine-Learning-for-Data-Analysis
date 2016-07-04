@@ -1,4 +1,60 @@
+##Lasso Regression Analysis
 
+######Summary:
+
+Using the NESARC data set, we targeted depression as our target. Depression being a major health issue in our modern world we try to find a few causes that closely relate to our target my using the lasso regression method. This reduces the coefficients of our predictors with respect to their connectivity to the target. 
+
+
+
+    {'AGE': 0.36782904839027469,
+     'ALCEVR1': 0.15365195102379575,
+     'ALCPROBS1': 0.28697391793381588,
+     'ASIAN': 0.047412176135255481,
+     'BLACK': 0.0,
+     'CIGAVAIL': 0.064324369645835475,
+     'COCEVER1': 0.1351179611310237,
+     'DEVIANT1': 0.36670412833232074,
+     'ESTEEM1': -1.7652286145736888,
+     'EXPEL1': 0.0,
+     'FAMCONCT': -0.76871421576887866,
+     'GPA1': -0.090492604677189462,
+     'HISPANIC': 0.0,
+     'INHEVER1': 0.0,
+     'MALE': -0.85866012265370595,
+     'MAREVER1': 0.0050799568064406097,
+     'NAMERICAN': 0.095304431061099246,
+     'PARACTV': 0.48203005783859237,
+     'PARPRES': -0.060793321061829733,
+     'PASSIST': 0.29201801098681479,
+     'SCHCONN1': -1.0858658834933537,
+     'VIOL1': 0.41709696946651742,
+     'WHITE': -0.29107217373767613}
+
+
+From the output above, we can clearly see that Self Esteem has a large negative impact followed by School Connectedness.
+We also see that 4 parameters have been nullified and their coefficients have been reduced to zero.
+
+While plotting the same graph, we also see that the alpha values to the Regression Coefficients and we can clearly see the highest impact variable here.
+
+
+![png](output_8_1.png)
+
+When checking the Mean Squared Error rates, we can see the testing and training data errors are not negligible but minimal with just a 2% difference. 
+
+    Training Data MSE
+    28.8359791082
+    Test Data MSE
+    30.1731423384
+    
+But when we take a look at the R-square error it is considerably less with the training date having a 31.3% and the testing data have a 34% error rate.
+
+
+    Training data R-square
+    0.313688817193
+    Test data R-square
+    0.340459503205
+    
+####Full Program:
 
 ```python
 # -*- coding: utf-8 -*-
