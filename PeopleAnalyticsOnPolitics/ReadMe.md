@@ -1,43 +1,14 @@
+##K-Cluster Analysis
 
-
-```python
-from pandas import Series, DataFrame
-import pandas as pd
-import numpy as np
-import matplotlib.pylab as plt
-from sklearn.cross_validation import train_test_split
-from sklearn import preprocessing
-from sklearn.cluster import KMeans
-```
-
-
-```python
-"""
-Data Management
-"""
-data = pd.read_csv("/Users/Rohit/Desktop/outlook.csv")
-
-#upper-case all DataFrame column names
-data.columns = map(str.upper, data.columns)
-
-# Data Management
-data_clean = data.dropna()
-```
-
-
-```python
+######Summary:
+Using the OLL dataset by the Inter-university Consortium for Political and Social Research (ICPSR), we targeted political behavoir as an explantory variable. K-Cluster helps us group these people into different clusters based on their outcome, we used the following variables for this analysis: 
+```python 
 #W1_A2: How much have you thought about the upcoming election for president?
 #W1_A10: How often, if ever, do you discuss politics with your family or friends?
 #W1_A11: How many days in the past week did you watch national news programs on television or on the Internet?
 #W1_A12: Do you approve or disapprove of the way Barack Obama is handling his job as President?
 #W1_B2: How much can people like you affect what the government does?
-
-cluster=data_clean[['W1_A2', 'W1_A10', 'W1_A11', 'W1_A12', 'W1_B1']]
-cluster.describe()
 ```
-
-
-
 
 <div>
 <table border="1" class="dataframe">
@@ -120,135 +91,17 @@ cluster.describe()
 </table>
 </div>
 
-
-
-
-```python
-# standardize clustering variables to have mean=0 and sd=1
-clustervar=cluster.copy()
-#clustervar['W1_A1']=preprocessing.scale(clustervar['W1_A1'].astype('float64'))
-clustervar['W1_A2']=preprocessing.scale(clustervar['W1_A2'].astype('float64'))
-clustervar['W1_A10']=preprocessing.scale(clustervar['W1_A10'].astype('float64'))
-clustervar['W1_A11']=preprocessing.scale(clustervar['W1_A11'].astype('float64'))
-clustervar['W1_A12']=preprocessing.scale(clustervar['W1_A12'].astype('float64'))
-clustervar['W1_B1']=preprocessing.scale(clustervar['W1_B1'].astype('float64'))
-```
-
-
-```python
-clus_train, clus_test = train_test_split(clustervar, test_size=.3, random_state=123)
-
-# k-means cluster analysis for 1-9 clusters                                                           
-from scipy.spatial.distance import cdist
-clusters=range(1,10)
-meandist=[]
-
-for k in clusters:
-    model=KMeans(n_clusters=k)
-    model.fit(clus_train)
-    clusassign=model.predict(clus_train)
-    meandist.append(sum(np.min(cdist(clus_train, model.cluster_centers_, 'euclidean'), axis=1)) 
-    / clus_train.shape[0])
-
-```
-
-
-```python
-"""
-Plot average distance from observations from the cluster centroid
-to use the Elbow Method to identify number of clusters to choose
-"""
-%matplotlib inline
-plt.plot(clusters, meandist)
-plt.xlabel('Number of clusters')
-plt.ylabel('Average distance')
-plt.title('Selecting k with the Elbow Method')
-```
-
-
-
-
-    <matplotlib.text.Text at 0x11b151c88>
-
-
-
+Having all these variables, we wanted to know the best number of clusters by using the Elbow Method, and the graph output shown below indicated that the best change where the variance doesn't change as much lies on 3 clusters.
 
 ![png](output_5_1.png)
 
-
-
-```python
-model3=KMeans(n_clusters=3)
-model3.fit(clus_train)
-clusassign=model3.predict(clus_train)
-# plot clusters
-
-from sklearn.decomposition import PCA
-pca_2 = PCA(2)
-plot_columns = pca_2.fit_transform(clus_train)
-plt.scatter(x=plot_columns[:,0], y=plot_columns[:,1], c=model3.labels_,)
-plt.xlabel('Canonical variable 1')
-plt.ylabel('Canonical variable 2')
-plt.title('Scatterplot of Canonical Variables for 3 Clusters')
-plt.show()
-```
-
+And running the clusters for 3 clusters, we get an output that shows a lot of overlap, and the green cluster shows too much variance shown below.
 
 ![png](output_6_0.png)
 
+So to verify we check the means of the values for each variable in each cluster separately, as shown below. It is clear that people who are aware of the upcoming election for president don't discuss politics with family or friends at all, and that represents Cluster 0. But people who have watched recent new programs the most in Cluster 2 are the ones who share their stories with family and friends. 
 
-
-```python
-"""
-BEGIN multiple steps to merge cluster assignment with clustering variables to examine
-cluster variable means by cluster
-"""
-# create a unique identifier variable from the index for the 
-# cluster training data to merge with the cluster assignment variable
-clus_train.reset_index(level=0, inplace=True)
-# create a list that has the new index variable
-cluslist=list(clus_train['index'])
-# create a list of cluster assignments
-labels=list(model3.labels_)
-# combine index variable list with cluster assignment list into a dictionary
-newlist=dict(zip(cluslist, labels))
-newlist
-# convert newlist dictionary to a dataframe
-newclus=DataFrame.from_dict(newlist, orient='index')
-newclus
-# rename the cluster assignment column
-newclus.columns = ['cluster']
-
-# now do the same for the cluster assignment variable
-# create a unique identifier variable from the index for the 
-# cluster assignment dataframe 
-# to merge with cluster training data
-newclus.reset_index(level=0, inplace=True)
-# merge the cluster assignment dataframe with the cluster training variable dataframe
-# by the index variable
-merged_train=pd.merge(clus_train, newclus, on='index')
-merged_train.head(n=100)
-# cluster frequencies
-merged_train.cluster.value_counts()
-```
-
-
-
-
-    2    618
-    1    513
-    0    473
-    Name: cluster, dtype: int64
-
-
-
-
-```python
-# FINALLY calculate clustering variable means by cluster
-clustergrp = merged_train.groupby('cluster').mean()
-print ("Clustering variable means by cluster")
-print(clustergrp)
-```
+While trying to analyse whether the people are happy with the way Obama is handling his job as president, we can see the most oblivious and the most interested people in politics agree (Cluster 0 and 2) whereas Cluster 1 think otherwise.
 
     Clustering variable means by cluster
                    index     W1_A2    W1_A10    W1_A11    W1_A12     W1_B1
@@ -257,60 +110,8 @@ print(clustergrp)
     1        1142.483431 -0.195955 -0.301577 -0.339406 -0.560074 -0.707371
     2        1095.655340 -0.710197  0.830843  0.847091  0.209088  0.132024
 
+While verifying with W1_A1: How interested are you in what's going on in government and politics?, it turns out that the most interested in politics correlate with the Cluster 0 and this group turns out to be intrested with the current election and seem more serious about it.
 
-
-```python
-# validate clusters in training data by examining cluster differences in W1_A1 using ANOVA
-# first have to merge W1_A1 with clustering variables and cluster assignment data 
-gpa_data=data_clean['W1_A1']
-# split GPA data into train and test sets
-gpa_train, gpa_test = train_test_split(gpa_data, test_size=.3, random_state=123)
-gpa_train1=pd.DataFrame(gpa_train)
-gpa_train1.reset_index(level=0, inplace=True)
-merged_train_all=pd.merge(gpa_train1, merged_train, on='index')
-sub1 = merged_train_all[['W1_A1', 'cluster']].dropna()
-
-import statsmodels.formula.api as smf
-import statsmodels.stats.multicomp as multi 
-
-gpamod = smf.ols(formula='W1_A1 ~ C(cluster)', data=sub1).fit()
-print (gpamod.summary())
-```
-
-                                OLS Regression Results                            
-    ==============================================================================
-    Dep. Variable:                  W1_A1   R-squared:                       0.398
-    Model:                            OLS   Adj. R-squared:                  0.397
-    Method:                 Least Squares   F-statistic:                     529.7
-    Date:                Sun, 10 Jul 2016   Prob (F-statistic):          2.80e-177
-    Time:                        11:01:20   Log-Likelihood:                -2182.8
-    No. Observations:                1604   AIC:                             4372.
-    Df Residuals:                    1601   BIC:                             4388.
-    Df Model:                           2                                         
-    Covariance Type:            nonrobust                                         
-    ===================================================================================
-                          coef    std err          t      P>|t|      [95.0% Conf. Int.]
-    -----------------------------------------------------------------------------------
-    Intercept           3.7421      0.043     86.171      0.000         3.657     3.827
-    C(cluster)[T.1]    -1.0696      0.060    -17.765      0.000        -1.188    -0.951
-    C(cluster)[T.2]    -1.8780      0.058    -32.548      0.000        -1.991    -1.765
-    ==============================================================================
-    Omnibus:                       65.122   Durbin-Watson:                   1.976
-    Prob(Omnibus):                  0.000   Jarque-Bera (JB):              143.973
-    Skew:                          -0.237   Prob(JB):                     5.45e-32
-    Kurtosis:                       4.389   Cond. No.                         3.95
-    ==============================================================================
-    
-    Warnings:
-    [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-
-
-
-```python
-print ('means for W1_A1 by cluster')
-m1= sub1.groupby('cluster').mean()
-print (m1)
-```
 
     means for W1_A1 by cluster
                 W1_A1
@@ -318,41 +119,6 @@ print (m1)
     0        3.742072
     1        2.672515
     2        1.864078
-
-
-
-```python
-print ('standard deviations for W1_A1 by cluster')
-m2= sub1.groupby('cluster').std()
-print (m2)
-```
-
-    standard deviations for W1_A1 by cluster
-                W1_A1
-    cluster          
-    0        1.011096
-    1        1.020285
-    2        0.817735
-
-
-
-```python
-mc1 = multi.MultiComparison(sub1['W1_A1'], sub1['cluster'])
-res1 = mc1.tukeyhsd()
-print(res1.summary())
-```
-
-    Multiple Comparison of Means - Tukey HSD,FWER=0.05
-    =============================================
-    group1 group2 meandiff  lower   upper  reject
-    ---------------------------------------------
-      0      1    -1.0696  -1.2108 -0.9283  True 
-      0      2     -1.878  -2.0134 -1.7426  True 
-      1      2    -0.8084  -0.9408 -0.6761  True 
-    ---------------------------------------------
-
-
-
-```python
-
-```
+    
+    
+####[Full Program] (https://github.com/RohitJacob/Machine-Learning-for-Data-Analysis/blob/master/PeopleAnalyticsOnPolitics/PeopleAnalyticsOnPolitics.ipynb)
