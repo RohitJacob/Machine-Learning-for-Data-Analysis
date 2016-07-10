@@ -7,7 +7,7 @@ This repository is for all the Machine Learning techniques that I've learnt on m
   - [Decision Trees](https://github.com/RohitJacob/Machine-Learning-for-Data-Analysis/tree/master/SomkersAnalysisTree)
   - [Random Forests](https://github.com/RohitJacob/Machine-Learning-for-Data-Analysis/tree/master/DrinkingFamilyForest)
   - [Lasso Regressions](https://github.com/RohitJacob/Machine-Learning-for-Data-Analysis/tree/master/DepressionAnalysis)
-  - K-means Cluster Analysis
+  - [K-means Cluster Analysis](https://github.com/RohitJacob/Machine-Learning-for-Data-Analysis/tree/master/PeopleAnalyticsOnPolitics)
 
 
 ####Contact Information
