@@ -15,5 +15,5 @@ This repository is for all the Machine Learning techniques that I've learnt on m
 > Please reach out to me at rj_92@live.com
 
 ##### Last Update
-July 4th, 2016
+July 10th, 2016
 
